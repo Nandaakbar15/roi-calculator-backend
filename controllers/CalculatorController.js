@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 exports.getAllRoiResults = async (req, res) => {
   try {
-    const results = await prisma.rOIResult.findMany({
+    const results = await prisma.roiResult.findMany({
       include: {
         financialDetails: true,
         businessStrategy: {

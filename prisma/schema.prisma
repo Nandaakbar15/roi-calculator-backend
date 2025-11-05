@@ -22,7 +22,7 @@ model FinancialDetails {
   timeframe                Int
   created_at               DateTime  @default(now())
   // Relasi ke hasil perhitungan ROI
-  roi_results              ROIResult[]
+  roi_results              RoiResult[]
 }
 
 model BusinessStrategy {
@@ -34,7 +34,7 @@ model BusinessStrategy {
   // Relasi many-to-many ke equipments
   equipments       BusinessStrategyEquipment[]
   // Relasi ke hasil ROI
-  roi_results      ROIResult[]
+  roi_results      RoiResult[]
 }
 
 // Tabel pivot untuk relasi many-to-many antara strategi dan peralatan
@@ -47,7 +47,7 @@ model BusinessStrategyEquipment {
   equipment          Equipments       @relation(fields: [equipmentId], references: [id])
 }
 
-model ROIResult {
+model RoiResult {
   id                    Int               @id @default(autoincrement())
   roi_percentage        Float
   net_profit            Int
