@@ -4,7 +4,7 @@ const {
   calculateRoi,
 } = require("../controllers/CalculatorController");
 
-const router = express();
+const router = express.Router();
 
 router.get("/api/roi-results", getAllRoiResults);
 router.post("/api/calculate-roi", calculateRoi);
