@@ -155,7 +155,7 @@ exports.calculateRoi = async (req, res) => {
     }
 
     // Simpan hasil ROI
-    const newResult = await prisma.rOIResult.create({
+    const newResult = await prisma.roiResult.create({
       data: {
         roi_percentage: parseFloat(roi_percentage.toFixed(2)),
         net_profit: parseInt(net_profit),
@@ -168,7 +168,7 @@ exports.calculateRoi = async (req, res) => {
     });
 
     // Ambil data lengkap
-    const resultWithRelations = await prisma.rOIResult.findUnique({
+    const resultWithRelations = await prisma.roiResult.findUnique({
       where: { id: newResult.id },
       include: {
         financialDetails: true,
