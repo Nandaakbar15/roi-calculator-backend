@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const router = require("./routes/route");
 const app = express();
-const port = process.env.PORT || 3000;
+const port = 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -16,8 +16,8 @@ app.get("/", (req, res) => {
   });
 });
 
-// app.listen(port, () => {
-//   console.log(`Server is running at: http://localhost:${port}`);
-// });
+app.listen(port, () => {
+  console.log(`Server is running at: http://localhost:${port}`);
+});
 
 module.exports = app;

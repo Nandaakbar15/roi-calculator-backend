@@ -12,6 +12,8 @@ model Equipments {
   equipment_type  String
   // Relasi ke tabel pivot
   strategies      BusinessStrategyEquipment[]
+
+  @@map("equipments")
 }
 
 model FinancialDetails {
@@ -23,6 +25,8 @@ model FinancialDetails {
   created_at               DateTime  @default(now())
   // Relasi ke hasil perhitungan ROI
   roi_results              RoiResult[]
+
+  @@map("financialdetails")
 }
 
 model BusinessStrategy {
@@ -35,6 +39,8 @@ model BusinessStrategy {
   equipments       BusinessStrategyEquipment[]
   // Relasi ke hasil ROI
   roi_results      RoiResult[]
+
+  @@map("businessstrategy")
 }
 
 // Tabel pivot untuk relasi many-to-many antara strategi dan peralatan
@@ -45,6 +51,8 @@ model BusinessStrategyEquipment {
 
   businessStrategy   BusinessStrategy @relation(fields: [businessStrategyId], references: [id])
   equipment          Equipments       @relation(fields: [equipmentId], references: [id])
+
+  @@map("businessstrategyequipment")
 }
 
 model RoiResult {
@@ -62,4 +70,6 @@ model RoiResult {
 
   financialDetails      FinancialDetails  @relation(fields: [financialDetailsId], references: [id])
   businessStrategy      BusinessStrategy  @relation(fields: [businessStrategyId], references: [id])
+
+  @@map("roiresult")
 }
