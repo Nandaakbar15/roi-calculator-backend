@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Equipments {
+  id              Int       @id @default(autoincrement())
+  equipment_type  String
+  // Relasi ke tabel pivot
+  strategies      BusinessStrategyEquipment[]
+}
+
+model FinancialDetails {
+  id                       Int       @id @default(autoincrement())
+  initial_investment       Int
+  expected_monthly_revenue Int
+  monthly_operating_cost   Int
+  timeframe                Int
+  created_at               DateTime  @default(now())
+  // Relasi ke hasil perhitungan ROI
+  roi_results              ROIResult[]
+}
+
+model BusinessStrategy {
+  id               Int       @id @default(autoincrement())
+  strategy_name    String
+  funding_option   String?   // bisa nullable kalau nanti diset manual
+  business_model   String?   // bisa nullable juga
+  created_at       DateTime  @default(now())
+  // Relasi many-to-many ke equipments
+  equipments       BusinessStrategyEquipment[]
+  // Relasi ke hasil ROI
+  roi_results      ROIResult[]
+}
+
+// Tabel pivot untuk relasi many-to-many antara strategi dan peralatan
+model BusinessStrategyEquipment {
+  id                 Int              @id @default(autoincrement())
+  businessStrategyId Int
+  equipmentId        Int
+
+  businessStrategy   BusinessStrategy @relation(fields: [businessStrategyId], references: [id])
+  equipment          Equipments       @relation(fields: [equipmentId], references: [id])
+}
+
+model ROIResult {
+  id                    Int               @id @default(autoincrement())
+  roi_percentage        Float
+  net_profit            Int
+  payback_period_years  Float
+  total_revenue         Int
+  total_operating_cost  Int
+  created_at            DateTime          @default(now())
+
+  // Relasi ke FinancialDetails & BusinessStrategy
+  financialDetailsId    Int
+  businessStrategyId    Int
+
+  financialDetails      FinancialDetails  @relation(fields: [financialDetailsId], references: [id])
+  businessStrategy      BusinessStrategy  @relation(fields: [businessStrategyId], references: [id])
+}
